@@ -7,6 +7,7 @@ use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Hash;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Response;
 
 class RegisterController extends Controller
@@ -18,6 +19,8 @@ class RegisterController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+
+        event(new Registered($user));
 
         return response([
             'message' => __('api.registration_successful'),
