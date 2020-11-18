@@ -10,6 +10,7 @@ use Hash;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
+use Lang;
 
 class LoginController extends Controller
 {
@@ -24,7 +25,7 @@ class LoginController extends Controller
         }
 
         return response([
-            'message' => __('api.login_successful'),
+            'message' => Lang::get('api.login_successful'),
             'data' => new UserResource($user),
             'access_token' => $user->createToken($request->email)->plainTextToken
         ], Response::HTTP_OK);
@@ -40,7 +41,7 @@ class LoginController extends Controller
         $request->user()->currentAccessToken()->delete();
 
         return response([
-            'message' => __('api.logout_successful')
+            'message' => Lang::get('api.logout_successful')
         ], Response::HTTP_OK);
     }
 }

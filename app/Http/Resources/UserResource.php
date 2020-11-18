@@ -12,6 +12,7 @@ class UserResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
+            'is_verified' => $this->email_verified_at ? true : false,
         ];
     }
 }

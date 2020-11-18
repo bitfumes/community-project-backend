@@ -3,6 +3,8 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use Event;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -77,6 +79,10 @@ class RegisterApiTest extends TestCase
 
     public function test_user_can_register()
     {
+        Event::fake([
+            Registered::class,
+        ]);
+
         $this->json('POST', '/api/register', [
             'name' => $this->faker->name,
             'email' => $this->faker->safeEmail,
@@ -89,5 +95,7 @@ class RegisterApiTest extends TestCase
                 "data",
                 "access_token"
             ]);
+
+        Event::assertDispatched(Registered::class);
     }
 }
